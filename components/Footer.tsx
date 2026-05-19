@@ -47,7 +47,7 @@ const Footer = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-ink/55">
-            kevin gallery project
+            Ilem gallery project
           </p>
           <p className="title-display text-2xl font-semibold text-dark md:text-3xl">
             Fait avec style, humour et un peu de chaos en {currentYear}

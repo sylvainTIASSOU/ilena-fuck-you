@@ -23,7 +23,7 @@ export const galleryImages: GalleryItem[] = Array.from({ length: 34 }, (_, index
     const id = String(index + 1).padStart(2, '0');
     return {
         src: `/images/kevin-${id}.jpeg`,
-        alt: `kevin moment ${index + 1}`,
+        alt: `Ilem moment ${index + 1}`,
         caption: `${captions[index % captions.length]} #${index + 1}`,
     };
 });

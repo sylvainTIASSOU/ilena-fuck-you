@@ -5,12 +5,12 @@ import CustomCursor from "@/components/CustomCursor";
 import ParticlesBackground from "@/components/ParticlesBackground";
 
 export const metadata: Metadata = {
-  title: "Le pire site jamais fait pour kevin",
-  description: "Un hommage vibrant à notre ami kevin. On t'aime, mais on aime encore plus se moquer de toi.",
-  keywords: ["kevin", "blague", "doigt d'honneur", "site troll", "humour"],
+  title: "Le pire site jamais fait pour Ilem",
+  description: "Un hommage vibrant à notre ami Ilem. On t'aime, mais on aime encore plus se moquer de toi.",
+  keywords: ["Ilem", "blague", "doigt d'honneur", "site troll", "humour"],
   authors: [{ name: "Ton meilleur ami" }],
   openGraph: {
-    title: "Le pire site jamais fait pour kevin",
+    title: "Le pire site jamais fait pour Ilem",
     description: "Un site rien que pour toi... et pour que tout le monde rigole.",
     type: "website",
   },

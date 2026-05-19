@@ -33,7 +33,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7 }}
             >
-              kevin,
+              Ilem,
               <span className="gradient-text block">la legendaire galerie</span>
               <span className="block">est officiellement ouverte.</span>
             </motion.h1>

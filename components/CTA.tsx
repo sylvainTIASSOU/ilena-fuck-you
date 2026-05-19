@@ -19,7 +19,7 @@ const CTA = () => {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
     } else if (navigator.share) {
       try {
-        await navigator.share({ title: 'Un message pour kevin', text, url });
+        await navigator.share({ title: 'Un message pour Ilem', text, url });
       } catch (err) {
         console.error('Erreur de partage:', err);
       }
@@ -99,7 +99,7 @@ const CTA = () => {
           </motion.div>
 
           <p className="mt-8 text-sm font-medium text-ink/65">
-            Bisous kevin, edition deluxe.
+            Bisous Ilem, edition deluxe.
           </p>
         </div>
 

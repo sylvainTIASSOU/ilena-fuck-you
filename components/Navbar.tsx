@@ -126,7 +126,7 @@ const Navbar = () => {
               </span>
               <div className="hidden sm:block">
                 <p className="title-display text-lg font-bold leading-none gradient-text">
-                  kevin
+                  Ilem
                 </p>
                 <p className="text-xs text-ink/60">édition bureau légende</p>
               </div>

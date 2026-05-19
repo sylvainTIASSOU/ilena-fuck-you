@@ -2,65 +2,83 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { FiCheckCircle } from 'react-icons/fi';
+import { whyImage } from '@/lib/imageCatalog';
 
 const Pourquoi = () => {
   const roasts = [
-    "Ton talent légendaire pour perdre à tous les jeux",
-    "Ta coupe de cheveux qui défie les lois de la physique",
-    "Tes blagues qui font pleurer (de désespoir)",
-    "Ta capacité à rater même les trucs les plus simples",
+    'Ton talent a transformer chaque pause en scene memorable',
+    'Ton regard ultra serieux pour des bugs qui se reglent en une ligne',
+    'Ton style de reaction qui vaut un generique de cinema',
+    'Ta constance: toujours present quand il faut faire rire le bureau',
   ];
 
   return (
-    <section id="pourquoi" className="py-32 px-4 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-neonRed/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-neonOrange/5 rounded-full blur-3xl" />
-
+    <section id="pourquoi" className="px-4 py-16 md:px-8">
       <motion.div
-        className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"
-        initial={{ opacity: 0, y: 80 }}
+        className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] border border-ink/10 bg-white/70 p-6 shadow-2xl shadow-ink/10 md:p-10 lg:grid-cols-[0.9fr_1.1fr]"
+        initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
-        {/* Text Content */}
-        <div className="prose prose-invert prose-lg max-w-none">
-          <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-neonOrange mb-8 leading-tight"
-            initial={{ opacity: 0, x: -50 }}
+        <motion.div
+          className="relative overflow-hidden rounded-3xl border border-ink/10"
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <Image
+            src={whyImage.src}
+            alt={whyImage.alt}
+            width={900}
+            height={1200}
+            className="h-full min-h-[420px] w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+          <p className="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-dark">
+            {whyImage.caption}
+          </p>
+        </motion.div>
+
+        <div>
+          <motion.h2
+            className="title-display text-4xl font-bold leading-tight text-dark md:text-5xl lg:text-6xl"
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            Parce que tu l&apos;as bien cherché
+            Pourquoi ce site existe?
+            <span className="gradient-text block">Parce que les archives sont trop bonnes.</span>
           </motion.h2>
-          
+
           <motion.p
-            className="text-gray-300 text-lg leading-relaxed mb-6"
-            initial={{ opacity: 0, x: -30 }}
+            className="mt-6 text-base leading-relaxed text-ink-soft md:text-lg"
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            On pourrait lister tes qualités, mais on a préféré faire un site pour te rappeler à quel point tu es... toi. 
-            Ce monument numérique est une ode à tes moments de gloire, tes blagues (un peu) nulles et ta capacité 
-            légendaire à nous faire rire, souvent à tes dépens.
+            Ce projet transforme les photos du quotidien en une experience web plus propre,
+            plus moderne et beaucoup plus fun. Le ton reste pique, mais la realisation est
+            clairement premium.
           </motion.p>
-          
+
           <motion.p
-            className="text-gray-300 text-lg leading-relaxed mb-6"
-            initial={{ opacity: 0, x: -30 }}
+            className="mt-4 text-base leading-relaxed text-ink-soft md:text-lg"
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            Considère ça comme un trophée. Un trophée en forme de doigt d&apos;honneur, certes, mais un trophée quand même.
+            Design editorial, cartes dynamiques, ambiance studio et galerie complete: tout est
+            pense pour raconter la meme histoire visuelle du debut a la fin.
           </motion.p>
 
-          {/* Roast List */}
           <motion.ul
-            className="space-y-4 my-8"
+            className="mt-8 space-y-4"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -69,66 +87,29 @@ const Pourquoi = () => {
             {roasts.map((roast, index) => (
               <motion.li
                 key={index}
-                className="flex items-center space-x-3 text-gray-300"
-                initial={{ opacity: 0, x: -20 }}
+                className="flex items-start gap-3 rounded-2xl border border-ink/10 bg-white/80 p-4 text-sm text-ink-soft md:text-base"
+                initial={{ opacity: 0, x: 16 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
               >
-                <span className="text-neonRed text-xl">🖕</span>
+                <FiCheckCircle className="mt-0.5 shrink-0 text-base text-neonRed" />
                 <span>{roast}</span>
               </motion.li>
             ))}
           </motion.ul>
-          
+
           <motion.p
-            className="text-gray-300 text-lg leading-relaxed"
-            initial={{ opacity: 0, x: -30 }}
+            className="mt-8 rounded-2xl border border-dashed border-ink/20 bg-paper px-5 py-4 text-sm text-ink/80 md:text-base"
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 1, duration: 0.6 }}
           >
-            Alors, profite de ta célébrité. Tu es notre star du jour, et on ne pouvait pas rater ça.
+            Conclusion officielle: impossible de ne pas faire ce site. Trop de matiere,
+            trop de moments forts, trop de preuves visuelles pour laisser ca dormir.
           </motion.p>
         </div>
-
-        {/* Image with Effects */}
-        <motion.div
-          className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl group"
-          initial={{ x: 100, opacity: 0, rotate: 5 }}
-          whileInView={{ x: 0, opacity: 1, rotate: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <Image
-            src="https://i.imgur.com/3xX1PAm.jpeg"
-            alt="Doigt d'honneur stylisé"
-            fill
-            className="object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-neonRed/40 via-transparent to-neonOrange/30 group-hover:opacity-80 transition-opacity duration-500" />
-          
-          {/* Animated Border */}
-          <motion.div
-            className="absolute inset-0 border-4 border-neonRed/30 rounded-2xl"
-            animate={{
-              borderColor: ['rgba(255, 0, 51, 0.3)', 'rgba(255, 102, 0, 0.5)', 'rgba(255, 0, 51, 0.3)'],
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-          />
-          
-          {/* Floating Emoji */}
-          <motion.div
-            className="absolute top-4 right-4 text-6xl"
-            animate={{
-              y: [0, -15, 0],
-              rotate: [0, 10, -10, 0],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            🖕
-          </motion.div>
-        </motion.div>
       </motion.div>
     </section>
   );

@@ -7,13 +7,17 @@ const ParticlesBackground = () => {
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; duration: number; delay: number }>>([]);
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const generateParticles = () => {
-      const newParticles = Array.from({ length: 50 }, (_, i) => ({
+      const newParticles = Array.from({ length: 28 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 4 + 2,
-        duration: Math.random() * 20 + 10,
+        size: Math.random() * 10 + 4,
+        duration: Math.random() * 24 + 16,
         delay: Math.random() * 5,
       }));
       setParticles(newParticles);
@@ -23,22 +27,22 @@ const ParticlesBackground = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="particle"
+          className="particle blur-[1px]"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
-            background: `rgba(255, ${Math.floor(Math.random() * 100)}, ${Math.floor(Math.random() * 51)}, ${Math.random() * 0.5 + 0.3})`,
+            background: indexToColor(particle.id),
           }}
           animate={{
-            y: [0, -100, 0],
-            x: [0, Math.random() * 50 - 25, 0],
-            opacity: [0, 1, 0],
+            y: [0, -70, 0],
+            x: [0, (particle.id % 2 ? -1 : 1) * 35, 0],
+            opacity: [0, 0.4, 0],
           }}
           transition={{
             duration: particle.duration,
@@ -50,6 +54,16 @@ const ParticlesBackground = () => {
       ))}
     </div>
   );
+};
+
+const indexToColor = (index: number) => {
+  const swatches = [
+    'rgba(0, 166, 251, 0.35)',
+    'rgba(240, 78, 35, 0.28)',
+    'rgba(255, 138, 0, 0.25)',
+  ];
+
+  return swatches[index % swatches.length];
 };
 
 export default ParticlesBackground;

@@ -1,9 +1,9 @@
 
-# Blueprint : Site Troll pour Kevin
+# Blueprint : Site Troll pour kevin
 
 ## Vue d'ensemble
 
-Ce document décrit le plan de développement pour un site vitrine one-page humoristique et "troll" destiné à un ami nommé Kevin. Le projet est construit avec Next.js (App Router), TypeScript, Tailwind CSS, et Framer Motion pour des animations modernes et fluides.
+Ce document décrit le plan de développement pour un site vitrine one-page humoristique et "troll" destiné à un ami nommé kevin. Le projet est construit avec Next.js (App Router), TypeScript, Tailwind CSS, et Framer Motion pour des animations modernes et fluides.
 
 L'objectif est de créer une expérience utilisateur mémorable, visuellement agressive (thème sombre, néon) et remplie d'humour personnalisé, tout en respectant les meilleures pratiques de développement web moderne.
 
@@ -27,29 +27,29 @@ L'objectif est de créer une expérience utilisateur mémorable, visuellement ag
 Le site est une single-page avec défilement fluide (smooth scroll) entre les sections.
 
 1.  **Navbar Fixe :**
-    *   Logo : "Fuck You Kevin"
+    *   Logo : "Fuck You kevin"
     *   Liens de navigation internes : Accueil, Pourquoi toi ?, Les Preuves, Galerie, Contact.
     *   Bouton de partage qui copie le lien du site dans le presse-papiers.
     *   Apparaît avec un effet de `glassmorphism` après un léger défilement.
 
 2.  **Hero Section :**
     *   Plein écran avec une image de fond proéminente (doigt d'honneur stylisé).
-    *   Titre principal : "KEVIN, Tu mérites ça."
+    *   Titre principal : "kevin, Tu mérites ça."
     *   Animations : Texte apparaissant lettre par lettre, image qui pulse.
 
 3.  **Section "Pourquoi ce site existe ?" :**
     *   Titre : "Parce que tu l'as bien cherché".
-    *   Texte humoristique listant les "défauts" de Kevin.
+    *   Texte humoristique listant les "défauts" de kevin.
     *   Image d'un doigt d'honneur stylisé.
 
 4.  **Section "Les moments légendaires" :**
-    *   Présente 3-4 "exploits" de Kevin sous forme de cartes.
+    *   Présente 3-4 "exploits" de kevin sous forme de cartes.
     *   Chaque carte contient une image, un titre et une légende.
     *   Animation au survol (`hover`) : la carte tremble et une icône apparaît.
 
 5.  **Galerie de la Honte :**
     *   Galerie d'images en grille (Masonry) responsive.
-    *   Contient un mélange de photos de Kevin et d'images/memes de doigts d'honneur.
+    *   Contient un mélange de photos de kevin et d'images/memes de doigts d'honneur.
     *   Effet de `lightbox` pour afficher les images en grand au clic.
     *   Animations d'apparition en cascade (stagger) pour les images.
 

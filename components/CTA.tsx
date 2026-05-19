@@ -1,14 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FiShare2, FiWifi, FiMail } from 'react-icons/fi';
+import Image from 'next/image';
+import { FiShare2 } from 'react-icons/fi';
 import { FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa';
+import { ctaImages } from '@/lib/imageCatalog';
 
 const CTA = () => {
   const handleShare = async (platform: string) => {
     const url = window.location.href;
     const text = "J'ai trouvé ça et j'ai pensé à toi... 🤣";
-    
+
     if (platform === 'whatsapp') {
       window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
     } else if (platform === 'twitter') {
@@ -17,7 +19,7 @@ const CTA = () => {
       window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
     } else if (navigator.share) {
       try {
-        await navigator.share({ title: 'Un message pour Kevin', text, url });
+        await navigator.share({ title: 'Un message pour kevin', text, url });
       } catch (err) {
         console.error('Erreur de partage:', err);
       }
@@ -28,139 +30,98 @@ const CTA = () => {
   };
 
   return (
-    <section id="contact" className="py-40 px-4 text-center relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark via-dark to-black" />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neonRed/10 rounded-full blur-3xl" />
-      
-      {/* Giant Finger Background */}
+    <section id="contact" className="px-4 py-16 md:px-8">
       <motion.div
-        className="absolute -bottom-32 -right-32 text-[40rem] text-neonRed/5 select-none pointer-events-none"
-        animate={{ rotate: [0, 5, -5, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
-      >
-        🖕
-      </motion.div>
-
-      <motion.div
-        className="relative z-10 max-w-4xl mx-auto"
-        initial={{ opacity: 0, scale: 0.7, y: 50 }}
+        className="mx-auto grid max-w-6xl gap-6 rounded-[2rem] border border-ink/10 bg-white/80 p-6 shadow-2xl shadow-ink/10 md:p-10 lg:grid-cols-[1.05fr_0.95fr]"
+        initial={{ opacity: 0, scale: 0.95, y: 24 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 1, type: 'spring', bounce: 0.4 }}
+        transition={{ duration: 0.8, type: 'spring', bounce: 0.25 }}
       >
-        {/* Main Title */}
-        <motion.h2 
-          className="text-6xl md:text-7xl lg:text-8xl font-display font-black text-neonRed neon-glow mb-8"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
-          Tu veux que ça s&apos;arrête ?
-        </motion.h2>
-
-        {/* Subtitle */}
-        <motion.p 
-          className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-12 leading-relaxed"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-        >
-          Désolé, c&apos;est trop tard. Le mal est fait. La seule chose qu&apos;il te reste à faire, 
-          c&apos;est de le partager à tous tes contacts. 😈
-        </motion.p>
-
-        {/* Share Buttons */}
-        <motion.div 
-          className="flex flex-wrap justify-center gap-4 mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-        >
-          <motion.button
-            onClick={() => handleShare('whatsapp')}
-            className="px-8 py-4 bg-green-600 text-white font-bold text-lg rounded-full shadow-lg hover:bg-green-500 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 flex items-center space-x-3"
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaWhatsapp className="text-2xl" />
-            <span>WhatsApp</span>
-          </motion.button>
-
-          <motion.button
-            onClick={() => handleShare('twitter')}
-            className="px-8 py-4 bg-sky-500 text-white font-bold text-lg rounded-full shadow-lg hover:bg-sky-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 flex items-center space-x-3"
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaTwitter className="text-2xl" />
-            <span>Twitter</span>
-          </motion.button>
-
-          <motion.button
-            onClick={() => handleShare('facebook')}
-            className="px-8 py-4 bg-blue-600 text-white font-bold text-lg rounded-full shadow-lg hover:bg-blue-500 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 flex items-center space-x-3"
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaFacebook className="text-2xl" />
-            <span>Facebook</span>
-          </motion.button>
-
-          <motion.button
-            onClick={() => handleShare('native')}
-            className="px-8 py-4 bg-gradient-to-r from-neonRed to-neonOrange text-white font-bold text-lg rounded-full shadow-lg hover:shadow-neonRed/50 transition-all duration-300 transform hover:scale-110 hover:-translate-y-2 flex items-center space-x-3"
-            whileHover={{ scale: 1.15 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FiShare2 className="text-2xl" />
-            <span>Autre</span>
-          </motion.button>
-        </motion.div>
-
-        {/* Final Message */}
-        <motion.div
-          className="mt-20"
-          initial={{ opacity: 0, scale: 0.5 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 0.8, type: 'spring' }}
-        >
-          <motion.div
-            className="text-9xl inline-block mb-6"
-            animate={{
-              y: [0, -20, 0],
-              rotate: [0, -10, 10, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            🖕
-          </motion.div>
-          
-          <motion.h3 
-            className="text-5xl md:text-6xl font-display font-black gradient-text neon-glow"
+        <div>
+          <motion.h2
+            className="title-display text-4xl font-bold text-dark md:text-6xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 1.2, duration: 0.8 }}
+            transition={{ delay: 0.15, duration: 0.6 }}
           >
-            Bisous, KEVIN ❤️
-          </motion.h3>
+            Tu veux diffuser le chef-d&apos;oeuvre?
+            <span className="gradient-text block">Choisis la plateforme.</span>
+          </motion.h2>
 
-          <motion.p 
-            className="mt-6 text-gray-500 text-lg"
+          <motion.p
+            className="mt-4 max-w-xl text-sm leading-relaxed text-ink-soft md:text-base"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 1.4, duration: 0.8 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
           >
-            On t&apos;aime bien quand même... mais pas trop.
+            Tout est pret: un clic et le lien part directement. Le design est propre,
+            le message est pret, il ne manque que ton feu vert.
           </motion.p>
-        </motion.div>
+
+          <motion.div
+            className="mt-8 grid gap-3 sm:grid-cols-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.45, duration: 0.6 }}
+          >
+            <button
+              onClick={() => handleShare('whatsapp')}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-[#25d366] px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+            >
+              <FaWhatsapp className="text-lg" />
+              WhatsApp
+            </button>
+            <button
+              onClick={() => handleShare('twitter')}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-[#1da1f2] px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+            >
+              <FaTwitter className="text-lg" />
+              Twitter
+            </button>
+            <button
+              onClick={() => handleShare('facebook')}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-[#1877f2] px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+            >
+              <FaFacebook className="text-lg" />
+              Facebook
+            </button>
+            <button
+              onClick={() => handleShare('native')}
+              className="flex items-center justify-center gap-2 rounded-2xl bg-dark px-4 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5"
+            >
+              <FiShare2 className="text-lg" />
+              Partage natif
+            </button>
+          </motion.div>
+
+          <p className="mt-8 text-sm font-medium text-ink/65">
+            Bisous kevin, edition deluxe.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          {ctaImages.map((item) => (
+            <motion.div
+              key={item.src}
+              className="relative h-40 overflow-hidden rounded-2xl border border-ink/10 bg-white md:h-48"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45 }}
+              whileHover={{ y: -3 }}
+            >
+              <Image src={item.src} alt={item.alt} fill className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+              <p className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-dark">
+                {item.caption}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </motion.div>
     </section>
   );

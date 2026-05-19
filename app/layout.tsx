@@ -1,19 +1,16 @@
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import ParticlesBackground from "@/components/ParticlesBackground";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "Le pire site jamais fait pour Kevin",
-  description: "Un hommage vibrant à notre ami Kevin. On t'aime, mais on aime encore plus se moquer de toi.",
-  keywords: ["Kevin", "blague", "doigt d'honneur", "site troll", "humour"],
+  title: "Le pire site jamais fait pour kevin",
+  description: "Un hommage vibrant à notre ami kevin. On t'aime, mais on aime encore plus se moquer de toi.",
+  keywords: ["kevin", "blague", "doigt d'honneur", "site troll", "humour"],
   authors: [{ name: "Ton meilleur ami" }],
   openGraph: {
-    title: "Le pire site jamais fait pour Kevin",
+    title: "Le pire site jamais fait pour kevin",
     description: "Un site rien que pour toi... et pour que tout le monde rigole.",
     type: "website",
   },
@@ -26,7 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth">
-      <body className={`${inter.className} antialiased`}>
+      <body className="antialiased">
+        <div className="grain-overlay" />
         <CustomCursor />
         <ParticlesBackground />
         {children}

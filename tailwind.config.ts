@@ -10,13 +10,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        dark: "#0a0a0a",
-        neonRed: "#ff0033",
-        neonOrange: "#ff6600",
+        dark: "#131722",
+        paper: "#f7f4ec",
+        ink: "#131722",
+        neonRed: "#f04e23",
+        neonOrange: "#ff8a00",
+        electric: "#00a6fb",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        display: ["var(--font-satoshi)", "sans-serif"],
+        sans: ["var(--font-sans)", "sans-serif"],
+        display: ["var(--font-display)", "sans-serif"],
       },
       animation: {
         "background-shine": "background-shine 2s linear infinite",

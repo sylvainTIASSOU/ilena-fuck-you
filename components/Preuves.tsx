@@ -3,127 +3,96 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FaFingerprint } from 'react-icons/fa';
-
-const preuves = [
-  {
-    title: 'Le jour où tu as raté ce goal',
-    description: "Même ta grand-mère l'aurait mis. Et elle était même pas sur le terrain.",
-    image: 'https://i.imgur.com/8QqSg7D.jpeg',
-  },
-  {
-    title: 'Ta dance move mythique',
-    description: "Le serpent épileptique n'a rien à t'envier. Continue de nous faire rêver.",
-    image: 'https://i.imgur.com/sC3d3gy.jpeg',
-  },
-  {
-    title: 'Cette coupe de cheveux...',
-    description: "Le coiffeur a glissé ? Ou c'était une tentative d'art moderne ?",
-    image: 'https://i.imgur.com/Bf2g4bE.jpeg',
-  },
-];
+import { proofCards } from '@/lib/imageCatalog';
 
 const Preuves = () => {
   return (
-    <section id="preuves" className="py-32 px-4 bg-dark relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,0,51,0.05),transparent_70%)]" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.h2
-          className="text-5xl md:text-6xl lg:text-7xl font-display font-black text-center mb-16 gradient-text neon-glow"
-          initial={{ opacity: 0, y: -80, scale: 0.8 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
-        >
-          Les plus grands hits de Kevin
-        </motion.h2>
+    <section id="preuves" className="px-4 py-16 md:px-8">
+      <div className="relative mx-auto max-w-6xl rounded-[2rem] bg-dark px-6 py-10 md:px-10">
+        <div className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_10%_20%,rgba(0,166,251,0.22),transparent_44%),radial-gradient(circle_at_88%_90%,rgba(240,78,35,0.3),transparent_36%)]" />
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={{ 
-            hidden: {}, 
-            visible: { transition: { staggerChildren: 0.3 } } 
-          }}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {preuves.map((preuve, index) => (
-            <motion.div
-              key={index}
-              className="relative group overflow-hidden rounded-2xl shadow-xl cursor-pointer"
-              variants={{ 
-                hidden: { y: 80, opacity: 0, rotateX: -15 }, 
-                visible: { y: 0, opacity: 1, rotateX: 0 } 
-              }}
-              transition={{ duration: 0.6, type: 'spring', bounce: 0.3 }}
-              whileHover={{ 
-                scale: 1.05, 
-                zIndex: 10,
-                boxShadow: '0 20px 40px rgba(255, 0, 51, 0.3)',
-              }}
-            >
-              {/* Image */}
-              <Image
-                src={preuve.image}
-                alt={preuve.title}
-                width={400}
-                height={500}
-                className="object-cover w-full h-[450px] transition-transform duration-700 group-hover:scale-125"
-              />
-              
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent group-hover:from-black/90 group-hover:via-black/70 transition-all duration-500" />
-              
-              {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <h3 className="text-2xl md:text-3xl font-bold font-display text-neonOrange mb-3 drop-shadow-lg">
-                  {preuve.title}
-                </h3>
-                <p className="text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 text-base leading-relaxed">
-                  {preuve.description}
-                </p>
-              </div>
+        <div className="relative z-10">
+          <motion.h2
+            className="title-display mb-4 text-center text-4xl font-bold text-white md:text-6xl"
+            initial={{ opacity: 0, y: -40, scale: 0.96 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, type: 'spring', bounce: 0.3 }}
+          >
+            Les preuves ne mentent jamais
+          </motion.h2>
+          <motion.p
+            className="mx-auto mb-10 max-w-2xl text-center text-sm leading-relaxed text-white/75 md:text-base"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            Selection premium des moments les plus iconiques de la collection.
+            Style carte magazine, transitions fluides et lisibilite optimisee.
+          </motion.p>
 
-              {/* Icon Badge */}
-              <motion.div 
-                className="absolute top-4 right-4 text-5xl text-white/20 group-hover:text-neonRed transition-all duration-500"
-                whileHover={{ 
-                  scale: 1.5, 
-                  rotate: 360,
-                  textShadow: '0 0 20px rgba(255, 0, 51, 0.8)'
+          <motion.div
+            className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.14 } }
+            }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {proofCards.map((preuve, index) => (
+              <motion.div
+                key={index}
+                className="group relative overflow-hidden rounded-3xl border border-white/15 bg-black/35 shadow-xl"
+                variants={{
+                  hidden: { y: 36, opacity: 0, rotateX: -8 },
+                  visible: { y: 0, opacity: 1, rotateX: 0 }
+                }}
+                transition={{ duration: 0.55, type: 'spring', bounce: 0.25 }}
+                whileHover={{
+                  scale: 1.02,
+                  zIndex: 10,
+                  boxShadow: '0 20px 45px rgba(10, 10, 10, 0.35)',
                 }}
               >
-                <FaFingerprint />
+                <Image
+                  src={preuve.image.src}
+                  alt={preuve.title}
+                  width={400}
+                  height={500}
+                  className="h-[370px] w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent transition-all duration-500 group-hover:from-black/95" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="title-display mb-2 text-2xl font-semibold text-white md:text-3xl">
+                    {preuve.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-white/80 md:text-base">
+                    {preuve.description}
+                  </p>
+                </div>
+
+                <motion.div
+                  className="absolute right-4 top-4 rounded-full bg-black/40 p-3 text-xl text-white/70 backdrop-blur"
+                  whileHover={{
+                    scale: 1.2,
+                    rotate: 360,
+                  }}
+                >
+                  <FaFingerprint />
+                </motion.div>
+
+                <div className="pointer-events-none absolute inset-0 rounded-3xl border border-white/15" />
               </motion.div>
+            ))}
+          </motion.div>
 
-              {/* Animated Border on Hover */}
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-neonRed rounded-2xl transition-colors duration-500 pointer-events-none" />
-              
-              {/* Glow Effect */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-neonRed/20 via-transparent to-neonOrange/20" />
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Decorative Elements */}
-        <motion.div
-          className="absolute -bottom-20 -left-20 text-9xl text-neonRed/5 select-none"
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        >
-          🖕
-        </motion.div>
-        <motion.div
-          className="absolute -top-20 -right-20 text-9xl text-neonOrange/5 select-none"
-          animate={{ rotate: [0, -10, 10, 0] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        >
-          🖕
-        </motion.div>
+          <div className="pointer-events-none absolute -left-8 -top-8 h-20 w-20 rounded-full border border-white/20" />
+          <div className="pointer-events-none absolute -bottom-10 -right-10 h-28 w-28 rounded-full border border-white/20" />
+        </div>
       </div>
     </section>
   );

@@ -1,5 +1,5 @@
 
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700&f[]=inter@400&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@700,900&f[]=inter@400,500,600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,14 +10,88 @@
   --font-inter: 'Inter', sans-serif;
 }
 
+* {
+  cursor: none;
+}
+
 body {
   background-color: #0a0a0a;
   color: white;
   overflow-x: hidden;
+  cursor: none;
+}
+
+body.default-cursor {
+  cursor: auto;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: difference;
 }
 
 .glassmorphism {
-  background: rgba(10, 10, 10, 0.5);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #ff0033 0%, #ff6600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.neon-glow {
+  text-shadow: 0 0 10px rgba(255, 0, 51, 0.5),
+               0 0 20px rgba(255, 0, 51, 0.3),
+               0 0 30px rgba(255, 0, 51, 0.2);
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 0, 51, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 51, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(255, 0, 51, 0.8), 0 0 60px rgba(255, 102, 0, 0.4); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

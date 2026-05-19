@@ -30,8 +30,8 @@ const Galerie = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            Toutes les images que tu as partagees sont integrees ici, en local,
-            avec lightbox et navigation visuelle moderne.
+            {/* Toutes les images que tu as partagees sont integrees ici, en local,
+            avec lightbox et navigation visuelle moderne. */}
           </motion.p>
         </motion.div>
 

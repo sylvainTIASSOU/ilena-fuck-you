@@ -12,13 +12,13 @@ const ParticlesBackground = () => {
     }
 
     const generateParticles = () => {
-      const newParticles = Array.from({ length: 28 }, (_, i) => ({
+      const newParticles = Array.from({ length: 30 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        size: Math.random() * 10 + 4,
-        duration: Math.random() * 24 + 16,
-        delay: Math.random() * 5,
+        size: Math.random() * 6 + 2, // Slightly smaller for more refined look
+        duration: Math.random() * 20 + 12,
+        delay: Math.random() * 4,
       }));
       setParticles(newParticles);
     };
@@ -31,18 +31,19 @@ const ParticlesBackground = () => {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="particle blur-[1px]"
+          className="absolute rounded-full pointer-events-none opacity-40 blur-[0.5px]"
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
             width: particle.size,
             height: particle.size,
             background: indexToColor(particle.id),
+            boxShadow: `0 0 10px ${indexToColor(particle.id)}`,
           }}
           animate={{
-            y: [0, -70, 0],
-            x: [0, (particle.id % 2 ? -1 : 1) * 35, 0],
-            opacity: [0, 0.4, 0],
+            y: [0, -90, 0],
+            x: [0, (particle.id % 2 ? -1 : 1) * 25, 0],
+            opacity: [0, 0.45, 0],
           }}
           transition={{
             duration: particle.duration,
@@ -58,9 +59,9 @@ const ParticlesBackground = () => {
 
 const indexToColor = (index: number) => {
   const swatches = [
-    'rgba(0, 166, 251, 0.35)',
-    'rgba(240, 78, 35, 0.28)',
-    'rgba(255, 138, 0, 0.25)',
+    'rgba(0, 240, 255, 0.4)', // Cyber cyan
+    'rgba(217, 70, 239, 0.35)', // Cyber pink
+    'rgba(139, 92, 246, 0.3)',  // Cyber violet
   ];
 
   return swatches[index % swatches.length];

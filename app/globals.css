@@ -1,4 +1,4 @@
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&f[]=share-tech-mono@400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,26 +7,26 @@
 :root {
   --font-display: 'Clash Display', sans-serif;
   --font-sans: 'Satoshi', sans-serif;
-  --paper: #f7f4ec;
-  --ink: #131722;
-  --ink-soft: #242c3d;
-  --card: rgba(255, 255, 255, 0.62);
-  --accent: #f04e23;
-  --electric: #00a6fb;
+  --font-mono: 'Share Tech Mono', monospace;
+  
+  --background: #030308;
+  --foreground: #f8fafc;
+  --card: rgba(10, 10, 18, 0.65);
+  --card-border: rgba(255, 255, 255, 0.08);
+  
+  --cyan: #00f0ff;
+  --pink: #d946ef;
+  --rose: #f43f5e;
+  --purple: #8b5cf6;
 }
 
 html,
 body {
   overflow-x: hidden;
-}
-
-body {
-  background:
-    radial-gradient(circle at 10% 20%, rgba(0, 166, 251, 0.16), transparent 32%),
-    radial-gradient(circle at 88% 8%, rgba(240, 78, 35, 0.22), transparent 35%),
-    linear-gradient(160deg, #fdfaf2 0%, #f7f4ec 46%, #efe8da 100%);
-  color: var(--ink);
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: var(--font-sans);
+  scroll-behavior: smooth;
 }
 
 @media (pointer: fine) {
@@ -39,12 +39,13 @@ body {
   }
 }
 
-.custom-cursor {
+/* Custom Cyber cursor */
+.custom-cursor-hud {
   position: fixed;
   top: 0;
   left: 0;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   pointer-events: none;
   z-index: 9999;
   font-size: 28px;
@@ -54,91 +55,106 @@ body {
   mix-blend-mode: normal;
 }
 
-.glassmorphism {
-  background: rgba(248, 243, 232, 0.7);
-  border-bottom: 1px solid rgba(19, 23, 34, 0.12);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+/* Cyber grid background */
+.cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.gradient-text {
-  background: linear-gradient(125deg, #f04e23 0%, #ff8a00 48%, #00a6fb 100%);
+/* Glowing nebulas */
+.cyber-glow-cyan {
+  position: fixed;
+  top: -10%;
+  left: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cyber-glow-pink {
+  position: fixed;
+  bottom: -10%;
+  right: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glassmorphism {
+  background: rgba(10, 10, 20, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.gradient-text-cyber {
+  background: linear-gradient(135deg, var(--cyan) 0%, #a855f7 50%, var(--pink) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.neon-glow {
-  text-shadow: 0 8px 24px rgba(240, 78, 35, 0.2);
+.neon-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.2);
 }
 
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: rgba(0, 166, 251, 0.35);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background-image:
-    radial-gradient(rgba(19, 23, 34, 0.03) 0.8px, transparent 0.8px),
-    radial-gradient(rgba(19, 23, 34, 0.02) 0.8px, transparent 0.8px);
-  background-position: 0 0, 12px 12px;
-  background-size: 24px 24px;
-}
-
-.section-shell {
-  position: relative;
-  border-radius: 2rem;
-  border: 1px solid rgba(19, 23, 34, 0.1);
-  background: var(--card);
-  box-shadow:
-    0 20px 40px rgba(19, 23, 34, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(14px);
+.neon-glow-pink {
+  text-shadow: 0 0 10px rgba(217, 70, 239, 0.5), 0 0 20px rgba(217, 70, 239, 0.2);
 }
 
 .title-display {
   font-family: var(--font-display);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
-@keyframes float {
+.font-mono-cyber {
+  font-family: var(--font-mono);
+}
 
-  0%,
-  100% {
-    transform: translateY(0px);
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #030308;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+/* Animations */
+@keyframes cyber-pulse {
+  0%, 100% {
+    opacity: 0.25;
   }
-
   50% {
-    transform: translateY(-20px);
+    opacity: 0.5;
   }
 }
 
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 rgba(240, 78, 35, 0.25);
-  }
-
-  50% {
-    box-shadow: 0 0 28px rgba(240, 78, 35, 0.35);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+.animate-cyber-pulse {
+  animation: cyber-pulse 4s ease-in-out infinite;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

@@ -2,115 +2,166 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { FiCheckCircle } from 'react-icons/fi';
+import { ShieldAlert, AlertOctagon, Brain, Database, CheckSquare, Clock } from 'lucide-react';
 import { whyImage } from '@/lib/imageCatalog';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { playCyberSound } from '@/lib/audio';
 
 const Pourquoi = () => {
-  const roasts = [
-    'Ton talent a transformer chaque pause en scene memorable',
-    'Ton regard ultra serieux pour des bugs qui se reglent en une ligne',
-    'Ton style de reaction qui vaut un generique de cinema',
-    'Ta constance: toujours present quand il faut faire rire le bureau',
+  const anomalies = [
+    'Capacité à transformer un café en pause de 2 heures',
+    'Regard ultra-professionnel sur des bugs mineurs résolus par un espace',
+    'Sens inné du timing pour quitter le bureau avant les alertes',
+    'Talent inestimable pour distraire ses collègues en pleine démo client',
+  ];
+
+  const metrics = [
+    { name: 'Temps de réponse Slack', val: '4h 12m', icon: Clock },
+    { name: 'Excuses préférées', val: '"Chez moi ça marche"', icon: Brain },
+    { name: 'Index de distraction', val: '9.2 / 10', icon: AlertOctagon },
+    { name: 'Base de données dossiers', val: 'Vérifiée', icon: Database },
   ];
 
   return (
-    <section id="pourquoi" className="px-4 py-16 md:px-8">
-      <motion.div
-        className="mx-auto grid max-w-6xl gap-8 rounded-[2rem] border border-ink/10 bg-white/70 p-6 shadow-2xl shadow-ink/10 md:p-10 lg:grid-cols-[0.9fr_1.1fr]"
-        initial={{ opacity: 0, y: 36 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
-      >
+    <section id="pourquoi" className="px-4 py-12 md:px-8">
+      <div className="mx-auto max-w-5xl">
         <motion.div
-          className="relative overflow-hidden rounded-3xl border border-ink/10"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
+          className="grid gap-8 items-stretch lg:grid-cols-[0.9fr_1.1fr]"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          <Image
-            src={whyImage.src}
-            alt={whyImage.alt}
-            width={900}
-            height={1200}
-            className="h-full min-h-[420px] w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-          <p className="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-dark">
-            {whyImage.caption}
-          </p>
+          {/* Left Column: Dossier Image Cover */}
+          <Card className="relative overflow-hidden border-white/10 group flex flex-col justify-end min-h-[380px] lg:min-h-[450px]">
+            <Image
+              src={whyImage.src}
+              alt={whyImage.alt}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            
+            {/* Dark futuristic screen filter */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#030308]/90 via-[#030308]/30 to-transparent pointer-events-none" />
+            
+            {/* Holographic hud scan grid overlay */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.05)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+            
+            <div className="relative z-10 p-6 font-mono">
+              <Badge variant="destructive" className="mb-2">
+                Pièce à conviction #34
+              </Badge>
+              <h3 className="text-lg font-bold text-white uppercase tracking-wider">{whyImage.caption}</h3>
+              <p className="text-[10px] text-slate-400 mt-1 uppercase">État : Certifié non retouché</p>
+            </div>
+          </Card>
+
+          {/* Right Column: Interactive Diagnostic Terminal */}
+          <div className="flex flex-col justify-between">
+            <div className="mb-6">
+              <div className="flex items-center gap-2">
+                <ShieldAlert className="text-[#d946ef] h-5 w-5" />
+                <span className="font-mono text-xs uppercase tracking-widest text-[#d946ef]">Comportement / Diagnostic</span>
+              </div>
+              <h2 className="title-display mt-3 text-3.5xl font-bold text-white md:text-5xl uppercase font-mono-cyber leading-tight">
+                Analyse de la 
+                <span className="gradient-text-cyber block font-extrabold">Cible Ilem</span>
+              </h2>
+              <p className="mt-4 text-sm text-slate-350 leading-relaxed font-sans">
+                Les dossiers compilés confirment un comportement typique nécessitant une surveillance. 
+                Utilisez le terminal ci-dessous pour filtrer les rapports de diagnostic système.
+              </p>
+            </div>
+
+            {/* Tabs for Terminal Viewports */}
+            <Tabs defaultValue="rapport" className="w-full flex-grow">
+              <TabsList className="w-full justify-start grid grid-cols-3 mb-5">
+                <TabsTrigger 
+                  value="rapport"
+                  onClick={() => playCyberSound('click')}
+                  onMouseEnter={() => playCyberSound('hover')}
+                >
+                  Rapport
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="anomalies"
+                  onClick={() => playCyberSound('click')}
+                  onMouseEnter={() => playCyberSound('hover')}
+                >
+                  Anomalies
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="fiche"
+                  onClick={() => playCyberSound('click')}
+                  onMouseEnter={() => playCyberSound('hover')}
+                >
+                  Fiche
+                </TabsTrigger>
+              </TabsList>
+
+              {/* Tab 1: System Rapport */}
+              <TabsContent value="rapport">
+                <Card className="border-white/5 bg-black/40">
+                  <CardContent className="p-5 font-mono text-xs text-slate-300 space-y-4">
+                    <div className="flex justify-between border-b border-white/5 pb-2 text-[10px] text-slate-500">
+                      <span>RAPP-ID: SEC-889-I</span>
+                      <span>AUTORISÉ</span>
+                    </div>
+                    <p className="leading-relaxed font-sans text-sm text-slate-350">
+                      Ilem représente un cas d&apos;école de décontraction de bureau. Nos capteurs révèlent 
+                      que sa seule présence augmente le rire au sein du pôle de 42%, tout en réduisant 
+                      les chances de livrer à temps de façon similaire.
+                    </p>
+                    <p className="leading-relaxed font-sans text-sm text-slate-350">
+                      Sa résistance naturelle aux deadlines et son attitude face aux bugs critiques 
+                      en font une cible parfaite pour cette vitrine technologique.
+                    </p>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              {/* Tab 2: Anomalies Checklist */}
+              <TabsContent value="anomalies">
+                <div className="space-y-2.5">
+                  {anomalies.map((anomaly, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="flex items-start gap-3 rounded-xl border border-white/5 bg-black/45 p-3.5 text-xs text-slate-300 font-mono"
+                      initial={{ opacity: 0, x: 15 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.08 }}
+                    >
+                      <CheckSquare className="h-4 w-4 shrink-0 text-[#00f0ff] mt-0.5" />
+                      <span className="text-slate-300 font-sans text-sm">{anomaly}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
+
+              {/* Tab 3: Detailed Telemetry Specs */}
+              <TabsContent value="fiche">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {metrics.map((m, idx) => {
+                    const Icon = m.icon;
+                    return (
+                      <Card key={idx} className="border-white/5 bg-black/50 hover:border-white/10 transition-all p-4">
+                        <div className="flex items-center gap-2">
+                          <Icon className="h-4 w-4 text-[#d946ef]" />
+                          <span className="text-[10px] text-slate-500 font-mono uppercase tracking-wider">{m.name}</span>
+                        </div>
+                        <p className="text-sm font-mono text-white mt-2.5 font-bold tracking-wide">{m.val}</p>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
         </motion.div>
-
-        <div>
-          <motion.h2
-            className="title-display text-4xl font-bold leading-tight text-dark md:text-5xl lg:text-6xl"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Pourquoi ce site existe?
-            <span className="gradient-text block">Parce que les archives sont trop bonnes.</span>
-          </motion.h2>
-
-          <motion.p
-            className="mt-6 text-base leading-relaxed text-ink-soft md:text-lg"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            Ce projet transforme les photos du quotidien en une experience web plus propre,
-            plus moderne et beaucoup plus fun. Le ton reste pique, mais la realisation est
-            clairement premium.
-          </motion.p>
-
-          <motion.p
-            className="mt-4 text-base leading-relaxed text-ink-soft md:text-lg"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Design editorial, cartes dynamiques, ambiance studio et galerie complete: tout est
-            pense pour raconter la meme histoire visuelle du debut a la fin.
-          </motion.p>
-
-          <motion.ul
-            className="mt-8 space-y-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            {roasts.map((roast, index) => (
-              <motion.li
-                key={index}
-                className="flex items-start gap-3 rounded-2xl border border-ink/10 bg-white/80 p-4 text-sm text-ink-soft md:text-base"
-                initial={{ opacity: 0, x: 16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 + index * 0.1, duration: 0.4 }}
-              >
-                <FiCheckCircle className="mt-0.5 shrink-0 text-base text-neonRed" />
-                <span>{roast}</span>
-              </motion.li>
-            ))}
-          </motion.ul>
-
-          <motion.p
-            className="mt-8 rounded-2xl border border-dashed border-ink/20 bg-paper px-5 py-4 text-sm text-ink/80 md:text-base"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1, duration: 0.6 }}
-          >
-            Conclusion officielle: impossible de ne pas faire ce site. Trop de matiere,
-            trop de moments forts, trop de preuves visuelles pour laisser ca dormir.
-          </motion.p>
-        </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

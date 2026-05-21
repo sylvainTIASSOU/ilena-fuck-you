@@ -3,15 +3,22 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { FiMenu, FiShare2, FiX } from 'react-icons/fi';
+import { Menu, X, Share2, Volume2, VolumeX, ShieldAlert } from 'lucide-react';
+import { playCyberSound } from '@/lib/audio';
 
 const Navbar = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('#hero');
+  const [isAudioEnabled, setIsAudioEnabled] = useState(true);
+  const [shareFeedback, setShareFeedback] = useState(false);
   const { scrollY, scrollYProgress } = useScroll();
 
   useEffect(() => {
+    // Initialise audio preference from localStorage
+    const savedAudio = localStorage.getItem('hud-audio') !== 'false';
+    setIsAudioEnabled(savedAudio);
+
     let lastScrollY = window.scrollY;
     const updateScrollDirection = () => {
       if (isMobileMenuOpen) {
@@ -27,14 +34,12 @@ const Navbar = () => {
       }
       lastScrollY = currentScrollY > 0 ? currentScrollY : 0;
     };
-    const unsubscribe = scrollY.onChange(updateScrollDirection);
+    const unsubscribe = scrollY.on('change', updateScrollDirection);
     return () => unsubscribe();
   }, [isMobileMenuOpen, scrollY]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    if (typeof window === 'undefined') return;
 
     const hash = window.location.hash;
     if (hash) {
@@ -45,9 +50,7 @@ const Navbar = () => {
       .map((link) => document.getElementById(link.href.replace('#', '')))
       .filter((section): section is HTMLElement => Boolean(section));
 
-    if (!sections.length) {
-      return;
-    }
+    if (!sections.length) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -86,13 +89,27 @@ const Navbar = () => {
   }, [isMobileMenuOpen]);
 
   const handleShare = () => {
+    playCyberSound('success');
     navigator.clipboard.writeText(window.location.href);
-    alert('Lien copié ! Partage ce chef-d\'œuvre à tes risques et périls.');
+    setShareFeedback(true);
+    setTimeout(() => setShareFeedback(false), 2000);
   };
 
   const handleNavClick = (href: string) => {
+    playCyberSound('click');
     setActiveSection(href);
     setIsMobileMenuOpen(false);
+  };
+
+  const toggleAudio = () => {
+    const nextState = !isAudioEnabled;
+    setIsAudioEnabled(nextState);
+    localStorage.setItem('hud-audio', String(nextState));
+    
+    // Play sound immediately to confirm change
+    if (nextState) {
+      setTimeout(() => playCyberSound('success'), 50);
+    }
   };
 
   const navLinks = [
@@ -117,22 +134,34 @@ const Navbar = () => {
         animate={isHidden ? 'hidden' : 'visible'}
         transition={{ duration: 0.35, ease: 'easeInOut' }}
       >
-        <div className="glassmorphism mx-auto w-full max-w-6xl rounded-2xl border border-ink/10 px-3 py-2 shadow-xl shadow-ink/10 md:px-4 md:py-3">
+        <div className="mx-auto w-full max-w-5xl rounded-2xl border border-white/10 bg-black/70 px-4 py-2.5 shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-xl md:px-6 md:py-3.5 relative overflow-hidden group">
+          
+          {/* Subtle neon glowing border */}
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent opacity-50" />
+          
           <div className="flex items-center justify-between gap-4">
-            <a href="#hero" className="group inline-flex items-center gap-3" onClick={() => handleNavClick('#hero')}>
-              <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-dark text-white shadow-lg md:h-11 md:w-11">
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-br from-neonRed/45 via-transparent to-electric/40" />
-                <span className="relative">🖕</span>
+            
+            {/* Logo */}
+            <a 
+              href="#hero" 
+              className="group inline-flex items-center gap-3" 
+              onClick={() => handleNavClick('#hero')}
+              onMouseEnter={() => playCyberSound('hover')}
+            >
+              <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-black border border-white/15 text-white shadow-lg overflow-hidden">
+                <span className="absolute inset-0 bg-gradient-to-br from-[#00f0ff]/20 via-transparent to-[#d946ef]/20" />
+                <span className="relative text-base">🖕</span>
               </span>
-              <div className="hidden sm:block">
-                <p className="title-display text-lg font-bold leading-none gradient-text">
-                  Ilem
+              <div className="block">
+                <p className="font-mono text-base font-bold leading-none tracking-wider text-white flex items-center gap-1.5 uppercase">
+                  Ilem-OS <span className="text-[9px] text-[#00f0ff] border border-[#00f0ff]/30 px-1 rounded animate-pulse font-mono font-normal">v2.4</span>
                 </p>
-                <p className="text-xs text-ink/60">édition bureau légende</p>
+                <p className="text-[10px] font-mono text-slate-400 tracking-tight uppercase">Dossier Compromis</p>
               </div>
             </a>
 
-            <div className="hidden md:flex items-center gap-1 rounded-full border border-ink/10 bg-white/70 p-1">
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center gap-1 rounded-full border border-white/5 bg-black/40 p-1 font-mono text-xs font-semibold">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.href;
 
@@ -141,11 +170,12 @@ const Navbar = () => {
                     key={link.name}
                     href={link.href}
                     onClick={() => handleNavClick(link.href)}
+                    onMouseEnter={() => playCyberSound('hover')}
                     className={cn(
-                      'rounded-full px-4 py-2 text-sm font-medium transition-all duration-200',
+                      'rounded-lg px-4 py-2 uppercase tracking-wider transition-all duration-200 cursor-pointer',
                       isActive
-                        ? 'bg-dark text-white shadow-lg shadow-dark/25'
-                        : 'text-ink/80 hover:bg-dark hover:text-white'
+                        ? 'bg-white/10 text-[#00f0ff] border border-white/10 shadow-[inset_0_0_8px_rgba(0,240,255,0.1)]'
+                        : 'text-slate-400 hover:text-white hover:bg-white/5'
                     )}
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -155,42 +185,64 @@ const Navbar = () => {
               })}
             </div>
 
+            {/* Right Action Menu */}
             <div className="flex items-center gap-2">
+              
+              {/* Sound toggle button */}
               <button
-                onClick={handleShare}
-                className="hidden items-center gap-2 rounded-full bg-dark px-5 py-2 text-sm font-semibold text-white shadow-lg transition-transform duration-300 hover:-translate-y-0.5 hover:bg-neonRed md:inline-flex"
+                onClick={toggleAudio}
+                onMouseEnter={() => playCyberSound('hover')}
+                className={cn(
+                  "p-2.5 rounded-xl border transition-colors outline-none cursor-pointer",
+                  isAudioEnabled 
+                    ? "border-white/10 text-[#00f0ff] hover:bg-white/5" 
+                    : "border-white/5 text-slate-500 hover:text-slate-400 hover:bg-white/5"
+                )}
+                aria-label={isAudioEnabled ? "Muter l'interface" : "Activer l'audio"}
               >
-                <FiShare2 className="text-base" />
-                Partager
+                {isAudioEnabled ? <Volume2 className="h-4.5 w-4.5" /> : <VolumeX className="h-4.5 w-4.5" />}
               </button>
 
+              {/* Share button */}
               <button
-                className="rounded-xl border border-ink/15 bg-white/90 p-2 text-2xl text-dark transition-colors hover:bg-white md:hidden"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={handleShare}
+                onMouseEnter={() => playCyberSound('hover')}
+                className="hidden items-center gap-2 rounded-xl bg-gradient-to-r from-[#00f0ff]/10 to-[#d946ef]/10 border border-[#00f0ff]/30 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-widest text-[#00f0ff] shadow-[0_0_10px_rgba(0,240,255,0.1)] hover:shadow-[0_0_15px_rgba(217,70,239,0.3)] hover:border-[#00f0ff] hover:text-white transition-all duration-300 hover:scale-[1.03] md:inline-flex outline-none cursor-pointer"
+              >
+                <Share2 className="h-4 w-4" />
+                {shareFeedback ? 'Accès Copié' : 'Partager'}
+              </button>
+
+              {/* Mobile Drawer Trigger */}
+              <button
+                className="rounded-xl border border-white/10 bg-black/60 p-2.5 text-slate-300 hover:text-white md:hidden outline-none cursor-pointer"
+                onClick={() => {
+                  playCyberSound('click');
+                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                }}
                 aria-expanded={isMobileMenuOpen}
                 aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
                 aria-controls="mobile-nav-drawer"
               >
-                {isMobileMenuOpen ? <FiX /> : <FiMenu />}
+                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
 
-          <motion.div
-            className="mt-2 h-1 w-full overflow-hidden rounded-full bg-dark/10"
-            initial={false}
-          >
+          {/* Glowing laser scroll progress bar */}
+          <div className="mt-2 h-[2px] w-full overflow-hidden rounded-full bg-white/5">
             <motion.div
-              className="h-full origin-left bg-gradient-to-r from-neonRed via-neonOrange to-electric"
+              className="h-full origin-left bg-gradient-to-r from-[#00f0ff] via-[#8b5cf6] to-[#d946ef] shadow-[0_0_8px_#00f0ff]"
               style={{ scaleX: scrollYProgress }}
             />
-          </motion.div>
+          </div>
         </div>
       </motion.nav>
 
+      {/* Mobile Drawer */}
       <motion.div
         id="mobile-nav-drawer"
-        className="fixed inset-0 z-40 md:hidden"
+        className="fixed inset-0 z-40 md:hidden font-mono"
         initial={{ opacity: 0, x: '100%' }}
         animate={{
           opacity: isMobileMenuOpen ? 1 : 0,
@@ -199,68 +251,89 @@ const Navbar = () => {
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         style={{ pointerEvents: isMobileMenuOpen ? 'auto' : 'none' }}
       >
+        {/* Backdrop overlay */}
         <button
-          className="absolute inset-0 h-full w-full bg-dark/35 backdrop-blur-[1px]"
-          onClick={() => setIsMobileMenuOpen(false)}
+          className="absolute inset-0 h-full w-full bg-black/80 backdrop-blur-md"
+          onClick={() => {
+            playCyberSound('click');
+            setIsMobileMenuOpen(false);
+          }}
           aria-label="Fermer le menu"
         />
 
-        <div className="relative ml-auto h-full w-[84%] max-w-sm border-l border-ink/10 bg-paper px-6 py-7 shadow-2xl shadow-dark/25">
-          <div className="mb-8 flex items-center justify-between">
-            <p className="title-display text-2xl font-semibold text-dark">Navigation</p>
-            <button
-              className="rounded-xl border border-ink/15 bg-white p-2 text-dark"
-              onClick={() => setIsMobileMenuOpen(false)}
-              aria-label="Fermer le menu"
-            >
-              <FiX className="text-xl" />
-            </button>
+        {/* Drawer Content */}
+        <div className="relative ml-auto h-full w-[80%] max-w-sm border-l border-white/10 bg-[#090910] px-6 py-8 shadow-2xl flex flex-col justify-between">
+          <div>
+            <div className="mb-8 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <ShieldAlert className="h-5 w-5 text-[#00f0ff]" />
+                <p className="text-md font-bold text-white uppercase tracking-wider">ILEM-OS MENU</p>
+              </div>
+              <button
+                className="rounded-xl border border-white/10 bg-black/60 p-2 text-slate-400 hover:text-white"
+                onClick={() => {
+                  playCyberSound('click');
+                  setIsMobileMenuOpen(false);
+                }}
+                aria-label="Fermer le menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {navLinks.map((link, index) => {
+                const isActive = activeSection === link.href;
+
+                return (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    className={cn(
+                      'flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-bold uppercase tracking-widest transition-all border',
+                      isActive 
+                        ? 'bg-gradient-to-r from-[#00f0ff]/10 to-[#d946ef]/10 border-[#00f0ff]/30 text-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.1)]' 
+                        : 'border-transparent text-slate-400 hover:bg-white/5 hover:text-white'
+                    )}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: isMobileMenuOpen ? 1 : 0,
+                      y: isMobileMenuOpen ? 0 : 20
+                    }}
+                    transition={{ delay: index * 0.05 }}
+                    onClick={() => handleNavClick(link.href)}
+                    onMouseEnter={() => playCyberSound('hover')}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    <span>{link.name}</span>
+                    <span className="text-[10px] text-slate-500 font-mono">CODE: 0{index + 1}</span>
+                  </motion.a>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="space-y-2">
-            {navLinks.map((link, index) => {
-              const isActive = activeSection === link.href;
-
-              return (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  className={cn(
-                    'title-display flex items-center justify-between rounded-2xl px-4 py-3 text-xl font-medium transition-colors',
-                    isActive ? 'bg-dark text-white' : 'text-dark hover:bg-white/80'
-                  )}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{
-                    opacity: isMobileMenuOpen ? 1 : 0,
-                    y: isMobileMenuOpen ? 0 : 20
-                  }}
-                  transition={{ delay: index * 0.08 }}
-                  onClick={() => handleNavClick(link.href)}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  <span>{link.name}</span>
-                  <span className={cn('text-sm', isActive ? 'text-white/70' : 'text-ink/50')}>0{index + 1}</span>
-                </motion.a>
-              );
-            })}
-          </div>
-
-          <motion.button
-            onClick={() => {
-              handleShare();
-              setIsMobileMenuOpen(false);
-            }}
-            className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark px-7 py-3 text-sm font-semibold tracking-wide text-white"
-            initial={{ opacity: 0, scale: 0.8 }}
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
             animate={{
               opacity: isMobileMenuOpen ? 1 : 0,
-              scale: isMobileMenuOpen ? 1 : 0.8
+              y: isMobileMenuOpen ? 0 : 20
             }}
-            transition={{ delay: navLinks.length * 0.08 }}
+            transition={{ delay: navLinks.length * 0.05 }}
           >
-            <FiShare2 />
-            Partager le site
-          </motion.button>
+            <button
+              onClick={handleShare}
+              onMouseEnter={() => playCyberSound('hover')}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00f0ff]/20 to-[#d946ef]/20 border border-[#00f0ff]/30 py-3 text-xs font-bold uppercase tracking-widest text-[#00f0ff]"
+            >
+              <Share2 className="h-4 w-4" />
+              {shareFeedback ? 'Lien Transmis !' : 'Transmettre Dossier'}
+            </button>
+            <div className="text-center">
+              <p className="text-[9px] text-slate-600 uppercase font-mono tracking-widest">Alerte de niveau 4 - Non classifié</p>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </>

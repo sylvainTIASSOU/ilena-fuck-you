@@ -32,7 +32,9 @@ const CustomCursor = () => {
         target.tagName === 'BUTTON' ||
         target.closest('a') ||
         target.closest('button') ||
-        target.getAttribute('role') === 'button'
+        target.getAttribute('role') === 'button' ||
+        target.classList.contains('cursor-pointer') ||
+        target.closest('.cursor-pointer')
       ) {
         setIsHovering(true);
       } else {
@@ -62,40 +64,54 @@ const CustomCursor = () => {
 
   return (
     <>
+      {/* Floating Finger Emoji */}
       <motion.div
-        className="custom-cursor"
+        className="custom-cursor-hud"
         animate={{
-          x: mousePosition.x - 20,
-          y: mousePosition.y - 20,
-          scale: isClicking ? 0.8 : isHovering ? 1.35 : 1,
-          rotate: isHovering ? 20 : 0,
+          x: mousePosition.x - 22,
+          y: mousePosition.y - 22,
+          scale: isClicking ? 0.8 : isHovering ? 1.2 : 1,
+          rotate: isHovering ? 15 : 0,
         }}
         transition={{
           type: 'spring',
-          stiffness: 500,
-          damping: 28,
-          mass: 0.5,
+          stiffness: 550,
+          damping: 26,
+          mass: 0.4,
         }}
       >
         🖕
       </motion.div>
+
+      {/* Cybernetic HUD Target Crosshair */}
       <motion.div
         className="fixed pointer-events-none z-[9998]"
         style={{
-          left: mousePosition.x - 11,
-          top: mousePosition.y - 11,
+          left: mousePosition.x,
+          top: mousePosition.y,
         }}
         animate={{
-          scale: isClicking ? 0.6 : isHovering ? 1.5 : 1,
-          opacity: isClicking ? 0.5 : 1,
+          scale: isClicking ? 0.75 : isHovering ? 1.6 : 1,
+          opacity: isClicking ? 0.6 : 0.9,
+          rotate: isClicking ? 90 : isHovering ? 45 : 0,
         }}
         transition={{
           type: 'spring',
-          stiffness: 300,
-          damping: 20,
+          stiffness: 350,
+          damping: 22,
         }}
       >
-        <div className="h-5 w-5 rounded-full border-2 border-neonRed bg-neonOrange/20" />
+        {/* Glowing Circle */}
+        <div className="absolute -left-5 -top-5 h-10 w-10 rounded-full border border-[#00f0ff] shadow-[0_0_8px_rgba(0,240,255,0.4)] bg-[#00f0ff]/5" />
+        
+        {/* HUD Tick Lines */}
+        <div className="absolute -left-6 top-0 h-[1px] w-2 bg-[#00f0ff]" />
+        <div className="absolute left-4 top-0 h-[1px] w-2 bg-[#00f0ff]" />
+        <div className="absolute top-4 left-0 h-2 w-[1px] bg-[#00f0ff]" />
+        <div className="absolute -top-6 left-0 h-2 w-[1px] bg-[#00f0ff]" />
+        
+        {/* Core Dot */}
+        <div className="absolute -left-1 -top-1 h-2 w-2 rounded-full bg-[#d946ef] shadow-[0_0_6px_rgba(217,70,239,0.8)]" />
       </motion.div>
     </>
   );
